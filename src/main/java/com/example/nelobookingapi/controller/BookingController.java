@@ -8,6 +8,7 @@ import com.example.nelobookingapi.exceptions.NoTableAvailablesOnThisRestaurant;
 import com.example.nelobookingapi.exceptions.OversizedGroupException;
 import com.example.nelobookingapi.exceptions.RestaurantNotFoundWithThatName;
 import com.example.nelobookingapi.services.BookingService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ public class BookingController {
     @Autowired
     BookingService service;
     
+    @Transactional
     @PostMapping("/restaurants")
     ResponseEntity findRestaurants(
         @RequestBody @Valid RestaurantFindRequest request
@@ -32,7 +34,7 @@ public class BookingController {
         
         return ResponseEntity.ok(service.findAvailableRestaurants(request.toReservationInfoDto()));
     }
-    
+    @Transactional
     @PostMapping("/reservations")
     ResponseEntity makeReservation(
         @RequestBody @Valid ReservationCreateRequest request
@@ -40,7 +42,7 @@ public class BookingController {
         
         return ResponseEntity.ok(service.makeReservation(request.toReservationInfoDto()));
     }
-    
+    @Transactional
     @DeleteMapping("/reservations/{reservationId}")
     ResponseEntity removeReservation(
         @PathVariable("reservationId") UUID reservationId

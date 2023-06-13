@@ -1,6 +1,8 @@
 package com.example.nelobookingapi.exceptions;
 
 import com.example.nelobookingapi.dto.ApiError;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -52,4 +54,14 @@ public class GlobalExceptionHandler {
             ex.getMessage()
         ));
     }
+    
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity handle(DataIntegrityViolationException ex) {
+        
+        return ResponseEntity.status(400).body(new ApiError(
+            HttpStatus.CONFLICT.name(),
+            ex.getMessage()
+        ));
+    }
+    
 }
