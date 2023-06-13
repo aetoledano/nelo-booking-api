@@ -41,7 +41,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"date\": \"2023-06-14\",\n    \"startTime\": 1000,\n    \"diners\": [\"Paulina\", \"Michael\"],\n    \"restaurant\": \"u.to.pi.a\"  \n}",
+					"raw": "{\n    \"date\": \"2023-06-14\",\n    \"startTime\": 1230,\n    \"diners\": [\"Paulina\", \"Michael\"],\n    \"restaurant\": \"u.to.pi.a\"  \n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -65,7 +65,7 @@
 		{
 			"name": "remove reservation",
 			"request": {
-				"method": "POST",
+				"method": "DELETE",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -77,14 +77,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/reservations",
+					"raw": "http://localhost:8080/reservations/8019078d-b27a-42a3-8f02-3d2e90b9cfa7",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"reservations"
+						"reservations",
+						"8019078d-b27a-42a3-8f02-3d2e90b9cfa7"
 					]
 				}
 			},
