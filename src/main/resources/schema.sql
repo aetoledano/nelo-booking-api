@@ -121,7 +121,7 @@ alter table if exists client_dietary_group
     add constraint FK_CDG_DIETARY_GROUPS_REFERENCE foreign key (dietary_group_id) references dietary_groups;
 
 -- Adds reservations
-create table reservations
+create table if not exists reservations
 (
     id            uuid    not null,
     date          timestamp(6),
@@ -138,7 +138,7 @@ CONSTRAINT IF EXISTS FK_RESERVATION_RESTAURANT;
 alter table if exists reservations
     add constraint FK_RESERVATION_RESTAURANT foreign key (restaurant_id) references restaurants;
 
-create table client_reservation_data
+create table if not exists client_reservation_data
 (
     id             serial,
     date           timestamp(6),
@@ -147,3 +147,17 @@ create table client_reservation_data
     client_id      uuid not null,
     primary key (id)
 );
+
+ALTER TABLE client_reservation_data
+DROP
+CONSTRAINT IF EXISTS FK_RESERVATION;
+
+alter table if exists client_reservation_data
+    add constraint FK_RESERVATION foreign key (reservation_id) references reservations;
+
+ALTER TABLE client_reservation_data
+DROP
+CONSTRAINT IF EXISTS FK_CLIENTS;
+
+alter table if exists client_reservation_data
+    add constraint FK_CLIENTS foreign key (client_id) references clients;
