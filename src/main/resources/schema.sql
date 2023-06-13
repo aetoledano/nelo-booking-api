@@ -131,12 +131,6 @@ create table reservations
     primary key (id)
 );
 
-create table reservation_client
-(
-    reservation_id uuid not null,
-    client_id      uuid not null
-);
-
 ALTER TABLE reservations
 DROP
 CONSTRAINT IF EXISTS FK_RESERVATION_RESTAURANT;
@@ -144,17 +138,12 @@ CONSTRAINT IF EXISTS FK_RESERVATION_RESTAURANT;
 alter table if exists reservations
     add constraint FK_RESERVATION_RESTAURANT foreign key (restaurant_id) references restaurants;
 
-ALTER TABLE reservation_client
-DROP
-CONSTRAINT IF EXISTS FK_RC_CLIENTS_REFERENCE;
-
-alter table if exists reservation_client
-    add constraint FK_RC_CLIENTS_REFERENCE foreign key (client_id) references clients;
-
-ALTER TABLE reservation_client
-DROP
-CONSTRAINT IF EXISTS FK_RC_RESERVATION_REFERENCE;
-
-alter table if exists reservation_client
-    add constraint FK_RC_RESERVATION_REFERENCE foreign key (reservation_id) references reservations;
-
+create table client_reservation_data
+(
+    id             serial,
+    date           timestamp(6),
+    interval       int4range,
+    reservation_id uuid not null,
+    client_id      uuid not null,
+    primary key (id)
+);

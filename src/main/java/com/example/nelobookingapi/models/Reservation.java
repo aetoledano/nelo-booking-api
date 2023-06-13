@@ -37,25 +37,16 @@ public class Reservation {
     @ManyToOne(optional = false)
     private Restaurant restaurant;
     
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "reservation_client",
-        joinColumns = {@JoinColumn(name = "reservation_id", referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name = "client_id", referencedColumnName = "id")}
-    )
-    private List<Client> clients;
-    
     private int tableSize;
     
     public Reservation() {
     
     }
     
-    public Reservation(Range<Integer> interval, Date date, Restaurant restaurant, List<Client> clients, int tableSize) {
+    public Reservation(Range<Integer> interval, Date date, Restaurant restaurant, int tableSize) {
         this.interval = interval;
         this.date = date;
         this.restaurant = restaurant;
-        this.clients = clients;
         this.tableSize = tableSize;
     }
     
@@ -89,14 +80,6 @@ public class Reservation {
     
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
-    }
-    
-    public List<Client> getClients() {
-        return clients;
-    }
-    
-    public void setClients(List<Client> clients) {
-        this.clients = clients;
     }
     
     public int getTableSize() {

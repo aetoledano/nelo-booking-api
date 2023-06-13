@@ -137,15 +137,14 @@ public class ModelsTests {
             Range.closed(1000, 1200),
             new Date(),
             restaurant,
-            clients,
             2
         );
         
         assertDoesNotThrow(() -> reservationRepo.save(reservation));
     }
     
-    @AfterAll
-    void cleanReservations() {
-        reservationRepo.deleteAll();
-    }
+//    @AfterAll
+//    void cleanReservations() {
+//        reservationRepo.deleteAll();
+//    }
 }
