@@ -138,6 +138,7 @@ CONSTRAINT IF EXISTS FK_RESERVATION_RESTAURANT;
 alter table if exists reservations
     add constraint FK_RESERVATION_RESTAURANT foreign key (restaurant_id) references restaurants;
 
+CREATE EXTENSION btree_gist;
 create table if not exists client_reservation_data
 (
     id             serial,
@@ -145,6 +146,7 @@ create table if not exists client_reservation_data
     interval       int4range,
     reservation_id uuid not null,
     client_id      uuid not null,
+    EXCLUDE USING GIST (client_id WITH =, date WITH =, interval WITH &&),
     primary key (id)
 );
 

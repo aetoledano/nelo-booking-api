@@ -2,6 +2,8 @@ package com.example.nelobookingapi.dto;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -10,8 +12,10 @@ public class RestaurantFindRequest {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate date;
     
-    int startTime;
+    @NotNull
+    Integer startTime;
     
+    @NotEmpty
     String[] diners;
     
     public RestaurantFindRequest(LocalDate date, int startTime, String[] diners) {
