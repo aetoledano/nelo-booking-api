@@ -1,10 +1,12 @@
 package com.example.nelobookingapi;
 
 import com.example.nelobookingapi.models.Client;
+import com.example.nelobookingapi.models.ClientReservationData;
 import com.example.nelobookingapi.models.DietaryGroup;
 import com.example.nelobookingapi.models.Reservation;
 import com.example.nelobookingapi.models.Restaurant;
 import com.example.nelobookingapi.repositories.ClientRepo;
+import com.example.nelobookingapi.repositories.ClientReservationDataRepo;
 import com.example.nelobookingapi.repositories.ReservationRepo;
 import com.example.nelobookingapi.repositories.RestaurantRepo;
 import io.hypersistence.utils.hibernate.type.range.Range;
@@ -42,6 +44,9 @@ public class ModelsTests {
     
     @Autowired
     ReservationRepo reservationRepo;
+    
+    @Autowired
+    ClientReservationDataRepo clientReservationDataRepo;
     
     @Test
     void TestRestaurantRetrieval() {
@@ -115,7 +120,7 @@ public class ModelsTests {
     }
     
     @Test
-    void TestNewReservationCanBeStored() {
+    void TestNewReservationCanBeStoredWithMetadata() {
         var names = new String[]{"Paulina", "Michael"};
         var clients = clientRepo.findAllByNames(List.of(names));
         
@@ -134,18 +139,31 @@ public class ModelsTests {
         assertTrue(opt.isPresent());
         var restaurant = opt.get();
         
+        var range = Range.closed(1000, 1200);
+        var date = LocalDate.now();
+        
         var reservation = new Reservation(
-            Range.closed(1000, 1200),
-            LocalDate.now(),
+            range,
+            date,
             restaurant,
             2
         );
         
+        var crd = clients.stream().map(c -> new ClientReservationData(
+            range,
+            date,
+            reservation,
+            c
+        )).collect(Collectors.toSet());
+        
         assertDoesNotThrow(() -> reservationRepo.save(reservation));
+        assertDoesNotThrow(() -> clientReservationDataRepo.saveAll(crd));
     }
     
-//    @AfterAll
-//    void cleanReservations() {
-//        reservationRepo.deleteAll();
-//    }
+
+
+    @AfterAll
+    void cleanReservations() {
+        reservationRepo.deleteAll();
+    }
 }

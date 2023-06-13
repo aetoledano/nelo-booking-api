@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -31,4 +32,6 @@ public interface RestaurantRepo extends JpaRepository<Restaurant, UUID> {
         @Param("restrictions") Collection<Long> restrictions,
         @Param("size") int size
     );
+    
+    Optional<Restaurant> findByName(String name);
 }

@@ -102,4 +102,12 @@ public class Restaurant {
             ", sixSeatTableCapacity=" + sixSeatTableCapacity +
             '}';
     }
+    
+    public int tablesAvailableOfSize(int tableSize, int occupied) {
+        if (tableSize == 2) return twoSeatTableCapacity - occupied;
+        if (tableSize == 4) return fourSeatTableCapacity - occupied;
+        if (tableSize == 6) return sixSeatTableCapacity - occupied;
+        
+        return 0;
+    }
 }
