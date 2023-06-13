@@ -22,6 +22,13 @@ public class ReservationCreateRequest {
     @NotBlank
     String restaurant;
     
+    public ReservationCreateRequest(LocalDate date, Integer startTime, @NotEmpty String[] diners, String restaurant) {
+        this.date = date;
+        this.startTime = startTime;
+        this.diners = diners;
+        this.restaurant = restaurant;
+    }
+    
     public ReservationInfoDto toReservationInfoDto() {
         return new ReservationInfoDto(
             startTime,
