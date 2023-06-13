@@ -1,0 +1,12 @@
+version: '2'
+services:
+  postgresql:
+    image: 'postgres:11-alpine'
+    volumes:
+      - '/etc/localtime:/etc/localtime:ro'
+      - './docker/initdb/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
