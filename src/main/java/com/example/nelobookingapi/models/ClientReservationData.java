@@ -10,6 +10,7 @@ import jakarta.persistence.Table;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.Type;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -28,7 +29,7 @@ public class ClientReservationData {
     )
     private Range<Integer> interval;
     
-    private Date date;
+    private LocalDate date;
     
     private UUID reservationId;
     

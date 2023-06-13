@@ -2,20 +2,14 @@ package com.example.nelobookingapi.models;
 
 import io.hypersistence.utils.hibernate.type.range.PostgreSQLRangeType;
 import io.hypersistence.utils.hibernate.type.range.Range;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.Type;
 
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -32,7 +26,7 @@ public class Reservation {
     )
     private Range<Integer> interval;
     
-    private Date date;
+    private LocalDate date;
     
     @ManyToOne(optional = false)
     private Restaurant restaurant;
@@ -43,7 +37,7 @@ public class Reservation {
     
     }
     
-    public Reservation(Range<Integer> interval, Date date, Restaurant restaurant, int tableSize) {
+    public Reservation(Range<Integer> interval, LocalDate date, Restaurant restaurant, int tableSize) {
         this.interval = interval;
         this.date = date;
         this.restaurant = restaurant;
@@ -66,11 +60,11 @@ public class Reservation {
         this.interval = interval;
     }
     
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
     
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
     

@@ -5,7 +5,7 @@ spring:
     password: nelo
   sql:
     init:
-      mode: always
+      mode: never
   jpa:
     show-sql: true
     hibernate:
