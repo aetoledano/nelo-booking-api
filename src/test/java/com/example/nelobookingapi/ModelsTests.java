@@ -2,13 +2,19 @@ package com.example.nelobookingapi;
 
 import com.example.nelobookingapi.models.Client;
 import com.example.nelobookingapi.models.DietaryGroup;
+import com.example.nelobookingapi.models.Reservation;
 import com.example.nelobookingapi.models.Restaurant;
 import com.example.nelobookingapi.repositories.ClientRepo;
+import com.example.nelobookingapi.repositories.ReservationRepo;
 import com.example.nelobookingapi.repositories.RestaurantRepo;
+import io.hypersistence.utils.hibernate.type.range.Range;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -19,10 +25,12 @@ import java.util.stream.Collectors;
 import static com.example.nelobookingapi.models.DietName.GLUTEN_FREE;
 import static com.example.nelobookingapi.models.DietName.VEGAN;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ModelsTests {
     
     @Autowired
@@ -30,6 +38,9 @@ public class ModelsTests {
     
     @Autowired
     ClientRepo clientRepo;
+    
+    @Autowired
+    ReservationRepo reservationRepo;
     
     @Test
     void TestRestaurantRetrieval() {
@@ -102,4 +113,39 @@ public class ModelsTests {
         assertEquals(1, clients.size());
     }
     
+    @Test
+    void TestNewReservationCanBeStored() {
+        var names = new String[]{"Paulina", "Michael"};
+        var clients = clientRepo.findAllByNames(List.of(names));
+        
+        assertEquals(2, clients.size());
+        
+        Set<Long> dgs = clients.stream()
+            .flatMap(
+                c -> c.getRestrictions().stream()
+            ).map(
+                dg -> dg.getId()
+            ).collect(Collectors.toSet());
+        
+        List<Restaurant> restaurants = restaurantRepo.findAllByDietRestrictions(dgs, dgs.size());
+        
+        var opt = restaurants.stream().findFirst();
+        assertTrue(opt.isPresent());
+        var restaurant = opt.get();
+        
+        var reservation = new Reservation(
+            Range.closed(1000, 1200),
+            new Date(),
+            restaurant,
+            clients,
+            2
+        );
+        
+        assertDoesNotThrow(() -> reservationRepo.save(reservation));
+    }
+    
+    @AfterAll
+    void cleanReservations() {
+        reservationRepo.deleteAll();
+    }
 }
