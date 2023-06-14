@@ -32,7 +32,7 @@ public class ReservationCreateRequest {
     public ReservationInfoDto toReservationInfoDto() {
         return new ReservationInfoDto(
             startTime,
-            startTime + 2000,
+            startTime + 200,
             date = date,
             List.of(diners),
             restaurant
