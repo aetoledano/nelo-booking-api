@@ -31,5 +31,5 @@ DELETE /reservations/<reservationId>
 ### Next steps
 
 - Complete the tests suite for services and controllers
-- Adds input validations like maximum hour time for starting a reservation, reservations made in the past, some data types like dates format, 
+- Adds input validations like maximum hour time for starting a reservation, reservations made in the past, some data types like dates format, refactor the endpoints response to hide irrelevant implementation details in DTOs 
 - What happens to reservations that start and finish the next day
